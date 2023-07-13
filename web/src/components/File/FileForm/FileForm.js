@@ -1,3 +1,7 @@
+import { useState } from 'react'
+
+import { PickerInline } from 'filestack-react'
+
 import {
   Form,
   FormError,
@@ -7,9 +11,15 @@ import {
   Submit,
 } from '@redwoodjs/forms'
 
-const FileForm = (props) => {
+const ImageForm = (props) => {
+  const [url, setUrl] = useState(props?.file?.url)
   const onSubmit = (data) => {
-    props.onSave(data, props?.file?.id)
+    const dataWithUrl = Object.assign(data, { url })
+    props.onSave(dataWithUrl, props?.file?.id)
+  }
+
+  const onFileUpload = (response) => {
+    setUrl(response.filesUploaded[0].url)
   }
 
   return (
@@ -29,10 +39,9 @@ const FileForm = (props) => {
         >
           Title
         </Label>
-
         <TextField
           name="title"
-          defaultValue={props.file?.title}
+          defaultValue={props.image?.title}
           className="rw-input"
           errorClassName="rw-input rw-input-error"
           validation={{ required: true }}
@@ -40,23 +49,10 @@ const FileForm = (props) => {
 
         <FieldError name="title" className="rw-field-error" />
 
-        <Label
-          name="url"
-          className="rw-label"
-          errorClassName="rw-label rw-label-error"
-        >
-          Url
-        </Label>
-
-        <TextField
-          name="url"
-          defaultValue={props.file?.url}
-          className="rw-input"
-          errorClassName="rw-input rw-input-error"
-          validation={{ required: true }}
+        <PickerInline
+          apikey={process.env.REDWOOD_ENV_FILESTACK_API_KEY}
+          onSuccess={onFileUpload}
         />
-
-        <FieldError name="url" className="rw-field-error" />
 
         <div className="rw-button-group">
           <Submit disabled={props.loading} className="rw-button rw-button-blue">
@@ -68,4 +64,4 @@ const FileForm = (props) => {
   )
 }
 
-export default FileForm
+export default ImageForm
