@@ -50,7 +50,15 @@ const FilesList = ({ files }) => {
             <tr key={file.id}>
               <td>{truncate(file.id)}</td>
               <td>{truncate(file.title)}</td>
-              <td>{truncate(file.url)}</td>
+              <td>
+                <a href={file.url} target="_blank" rel="noreferrer">
+                  <img
+                    src={file.url}
+                    style={{ maxWidth: '50px' }}
+                    alt="uploadFile"
+                  />
+                </a>
+              </td>
               <td>
                 <nav className="rw-table-actions">
                   <Link
