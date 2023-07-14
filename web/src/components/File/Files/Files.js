@@ -34,6 +34,12 @@ const FilesList = ({ files }) => {
     }
   }
 
+  const thumbnail = (url) => {
+    const parts = url.split('/')
+    parts.splice(3, 0, 'resize=width:100')
+    return parts.join('/')
+  }
+
   return (
     <div className="rw-segment rw-table-wrapper-responsive">
       <table className="rw-table">
@@ -53,7 +59,7 @@ const FilesList = ({ files }) => {
               <td>
                 <a href={file.url} target="_blank" rel="noreferrer">
                   <img
-                    src={file.url}
+                    src={thumbnail(file.url)}
                     style={{ maxWidth: '50px' }}
                     alt="uploadFile"
                   />

@@ -3,12 +3,12 @@ import { useState } from 'react'
 import { PickerInline } from 'filestack-react'
 
 import {
+  FieldError,
   Form,
   FormError,
-  FieldError,
   Label,
-  TextField,
   Submit,
+  TextField,
 } from '@redwoodjs/forms'
 
 const ImageForm = (props) => {
@@ -52,7 +52,27 @@ const ImageForm = (props) => {
         <PickerInline
           apikey={process.env.REDWOOD_ENV_FILESTACK_API_KEY}
           onSuccess={onFileUpload}
-        />
+        >
+          <div
+            style={{ display: url ? 'none' : 'block', height: '500px' }}
+          ></div>
+        </PickerInline>
+
+        {url && (
+          <div>
+            <img
+              src={url}
+              style={{ display: 'block', margin: '2rem 0', height: '150px' }}
+              alt="urlfile"
+            />
+            <button
+              onClick={() => setUrl(null)}
+              className="rw-button rw-button-blue"
+            >
+              Replace Image
+            </button>
+          </div>
+        )}
 
         <div className="rw-button-group">
           <Submit disabled={props.loading} className="rw-button rw-button-blue">
