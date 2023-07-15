@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { PickerInline } from 'filestack-react'
 
@@ -10,11 +10,37 @@ import {
   Submit,
   TextField,
 } from '@redwoodjs/forms'
+import { useQuery } from '@redwoodjs/web'
 
-const ImageForm = (props) => {
+export const QUERY = gql`
+  query FindFiles {
+    files {
+      id
+      title
+      url
+    }
+  }
+`
+
+const FileForm = (props) => {
+  const { data } = useQuery(QUERY)
   const [url, setUrl] = useState(props?.file?.url)
+  const [files, setFiles] = useState([])
+
+  useEffect(() => {
+    if (data) {
+      setFiles(data.files)
+    }
+  }, [data])
+
   const onSubmit = (data) => {
     const dataWithUrl = Object.assign(data, { url })
+    const existingFile = files.find((file) => file.title === dataWithUrl.title)
+    if (existingFile) {
+      alert(`File with name ${dataWithUrl.title} already exists.`)
+      return
+    }
+
     props.onSave(dataWithUrl, props?.file?.id)
   }
 
@@ -41,7 +67,7 @@ const ImageForm = (props) => {
         </Label>
         <TextField
           name="title"
-          defaultValue={props.image?.title}
+          defaultValue={props.file?.title}
           className="rw-input"
           errorClassName="rw-input rw-input-error"
           validation={{ required: true }}
@@ -69,7 +95,7 @@ const ImageForm = (props) => {
               onClick={() => setUrl(null)}
               className="rw-button rw-button-blue"
             >
-              Replace Image
+              Replace File
             </button>
           </div>
         )}
@@ -84,4 +110,4 @@ const ImageForm = (props) => {
   )
 }
 
-export default ImageForm
+export default FileForm

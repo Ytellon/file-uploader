@@ -18,7 +18,7 @@ const Routes = () => {
         <Route path="/files/new" page={FileNewFilePage} name="newFile" />
         <Route path="/files/{id:Int}/edit" page={FileEditFilePage} name="editFile" />
         <Route path="/files/{id:Int}" page={FileFilePage} name="file" />
-        <Route path="/files" page={FileFilesPage} name="files" />
+        <Route path="/" page={FileFilesPage} name="files" />
       </Set>
       <Route notfound page={NotFoundPage} />
     </Router>

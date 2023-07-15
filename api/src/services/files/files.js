@@ -1,3 +1,5 @@
+import * as Filestack from 'filestack-js'
+
 import { db } from 'src/lib/db'
 
 export const files = () => {
@@ -23,8 +25,24 @@ export const updateFile = ({ id, input }) => {
   })
 }
 
-export const deleteFile = ({ id }) => {
-  return db.file.delete({
-    where: { id },
-  })
+export const deleteFile = async ({ id }) => {
+  const client = Filestack.init(process.env.REDWOOD_ENV_FILESTACK_API_KEY)
+
+  const file = await db.file.findUnique({ where: { id } })
+
+  // The `security.handle` is the unique part of the Filestack file's url.
+  const handle = file.url.split('/').pop()
+
+  const security = Filestack.getSecurity(
+    {
+      expiry: new Date().getTime() + 5 * 60 * 1000,
+      handle,
+      call: ['remove'],
+    },
+    process.env.REDWOOD_ENV_FILESTACK_SECRET
+  )
+
+  await client.remove(handle, security)
+
+  return db.file.delete({ where: { id } })
 }
