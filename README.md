@@ -16,16 +16,16 @@ Os principais requisitos incluem a implementação de endpoints de API para real
 > -  [Node.js](https://nodejs.org/en/) (>=18.x) e [Yarn](https://yarnpkg.com/) (>=1.15)
 > - Você está no Windows? Para obter melhores resultados, siga nosso guia [configuração de desenvolvimento do Windows](https://redwoodjs.com/docs/how-to/windows-development-setup)
 
-Comece instalando as dependências:
-
-```
-yarn install
-```
-
 Em seguida, mude para esse diretório e inicie o servidor de desenvolvimento:
 
 ```
 cd file-uploader
+```
+
+Comece instalando as dependências:
+
+```
+yarn install
 ```
 
 Crie um arquivo na raiz do projeto chamado `.env` e copie os valores contidos em
@@ -38,12 +38,9 @@ REDWOOD_ENV_FILESTACK_API_KEY="your filestack api key"
 REDWOOD_ENV_FILESTACK_SECRET="your filestack secret"
 ```
 
-
-
 Em seguida, inicie o servidor de desenvolvimento:
 
 ```
-cd file-uploader
 yarn redwood dev
 ```
 
