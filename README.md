@@ -38,10 +38,10 @@ REDWOOD_ENV_FILESTACK_API_KEY="your filestack api key"
 REDWOOD_ENV_FILESTACK_SECRET="your filestack secret"
 ```
 
-Em seguida, inicie o servidor de desenvolvimento:
+Em seguida, atualize o banco de dados e inicie o servidor de desenvolvimento:
 
 ```
-yarn redwood dev
+yarn rw prisma migrate dev && yarn redwood dev
 ```
 
 Seu navegador deve abrir automaticamente em http://localhost:8910, onde você verá a página inicial de criar um novo upload, com links para muitos recursos. 💻
